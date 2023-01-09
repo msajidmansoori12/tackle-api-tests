@@ -16,3 +16,9 @@ jobs:
         run: |
           ls ${{ github.workspace }}
       - run: echo "🍏 This job's status is ${{ job.status }}."
+
+      - name: Clone gitlab repo
+        uses: actions/checkout@v1  
+        with:
+          repository: https://gitlab.cee.redhat.com/mmansoor/tackle-api-tests-config.git
+          token: ${{ secrets.GITLAB_ACCESS_TOKEN }}
