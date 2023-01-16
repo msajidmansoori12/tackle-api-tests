@@ -16,7 +16,7 @@ pipeline {
                 comparator: 'REGEXP'
             }
             steps{
-                echo "Branch is a PR"
+                echo "Branch is a PR" 
             }
         }
 //         stage('Install minikube'){
