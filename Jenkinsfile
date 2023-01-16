@@ -7,7 +7,16 @@ pipeline {
         stage('Hello') {
             steps {
                 checkout scm
-                echo "hello"
+                echo "hello from new branch"
+            }
+        }
+        stage('Test REGEX'){
+            when{
+                branch pattern: '^PR-.*$',
+                comparator: 'REGEXP'
+            }
+            steps{
+                echo "Branch is a PR"
             }
         }
 //         stage('Install minikube'){
