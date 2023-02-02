@@ -30,35 +30,32 @@ pipeline{
                 }
             }
             steps{
-                echo "This runs"
-            }
-        }
-        stage('Install & run minikube'){
-            // when{
-            //     branch pattern: '^PR-.*$',
-            //     comparator: 'REGEXP'
-            // }
-            when { 
-                expression{
-                    getChangedFilesList().any { it=~ /^tests\/.*test_.*$/} == true
-                }
-            }   
-            steps{
                 script{
                     checkout scm
+                    env.RUN_TESTS = "true"
                     getChangedFilesList().each{
                         i ->
                         println(i)
                     } 
-                    l = [] 
+                    changed_test_list = [] 
                     getChangedFilesList().each{
                         i ->
                         if(i.contains("test_")){
                             l.add(i)
                         }
                     }
-                    def joined = l.join(" ")
-                    sh "python ${joined}"
+                    env.CHANGED_TEST_FILES = l.join(" ")
+                }
+            }
+        }
+        stage('Install & run minikube'){
+            when { 
+                expression{
+                    environment name: RUN_TESTS, value: "true"
+                }
+            }   
+            steps{
+                script{
                     
                     // sh """ curl -Lo minikube https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
                     //         chmod +x minikube
@@ -90,10 +87,11 @@ pipeline{
             }
         }
         stage('Run tackle api tests'){
-            when{
-                branch pattern: '^PR-.*$',
-                comparator: 'REGEXP'
-            }
+           when { 
+                expression{
+                    environment name: RUN_TESTS, value: "true"
+                }
+            }   
             steps{
                 script{
                     sh "pipenv run pip install -r requirements.txt"
