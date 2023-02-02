@@ -52,7 +52,7 @@ pipeline{
         stage('Install & run minikube'){
             when { 
                 expression{
-                    environment name: RUN_TESTS, value: "true"
+                    (env.RUN_TESTS == "true")? true: false
                 }
             }   
             steps{
@@ -90,7 +90,7 @@ pipeline{
         stage('Run tackle api tests'){
            when { 
                 expression{
-                    environment name: RUN_TESTS, value: "true"
+                    (env.RUN_TESTS == "true")? true: false
                 }
             }   
             steps{
