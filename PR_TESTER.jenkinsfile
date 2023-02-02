@@ -17,17 +17,18 @@ pipeline{
         TACKLE_USER = "admin"
         TACKLE_PASSWORD = "Passw0rd!"
     }
-    when { 
-        expression{
-            getChangedFilesList().any { it=~ /^tests\/.*test_.*$/} == true
-        }
-    }
+    
     stages{
         stage('Install & run minikube'){
             // when{
             //     branch pattern: '^PR-.*$',
             //     comparator: 'REGEXP'
             // }
+            when { 
+                expression{
+                    getChangedFilesList().any { it=~ /^tests\/.*test_.*$/} == true
+                }
+            }   
             steps{
                 script{
                     checkout scm
@@ -35,6 +36,7 @@ pipeline{
                         i ->
                         println(i)
                     } 
+                    
                     // sh """ curl -Lo minikube https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
                     //         chmod +x minikube
                     //         minikube_homedir=/usr/local/bin/
