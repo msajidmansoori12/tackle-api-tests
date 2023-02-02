@@ -17,12 +17,19 @@ pipeline{
         TACKLE_USER = "admin"
         TACKLE_PASSWORD = "Passw0rd!"
     }
+
     stages{
         stage('Install & run minikube'){
             // when{
             //     branch pattern: '^PR-.*$',
             //     comparator: 'REGEXP'
             // }
+             when { 
+                expression{
+                    getChangedFilesList().any { it=~ /^tests\/.*test_.*$/} == true
+                }
+            }
+
             steps{
                 script{
                     checkout scm
