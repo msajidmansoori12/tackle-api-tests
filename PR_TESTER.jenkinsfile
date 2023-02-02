@@ -19,6 +19,20 @@ pipeline{
     }
     
     stages{
+        stage("Check if their are changed tests"){
+            when{
+                allOf{
+                    branch pattern: '^PR-.*$',
+                    comparator: 'REGEXP';
+                    expression{
+                    getChangedFilesList().any { it=~ /^tests\/.*test_.*$/} == true
+                    }
+                }
+            }
+            steps{
+                echo "This runs"
+            }
+        }
         stage('Install & run minikube'){
             // when{
             //     branch pattern: '^PR-.*$',
