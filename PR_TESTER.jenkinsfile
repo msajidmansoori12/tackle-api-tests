@@ -42,17 +42,17 @@ pipeline{
                     getChangedFilesList().each{
                         i ->
                         if(i.contains("test_")){
-                            l.add(i)
+                            changed_test_list.add(i)
                         }
                     }
-                    env.CHANGED_TEST_FILES = l.join(" ")
+                    env.CHANGED_TEST_FILES = changed_test_list.join(" ")
                 }
             }
         }
         stage('Install & run minikube'){
             when { 
                 expression{
-                    (env.RUN_TESTS == "true")? true: false
+                    return (env.RUN_TESTS == "true")
                 }
             }   
             steps{
@@ -90,7 +90,7 @@ pipeline{
         stage('Run tackle api tests'){
            when { 
                 expression{
-                    (env.RUN_TESTS == "true")? true: false
+                    return (env.RUN_TESTS == "true")
                 }
             }   
             steps{
@@ -104,7 +104,7 @@ pipeline{
                     ocp.pollRouteUntilReady(env.TACKLE_URL,15,30)
                     repo.checkout("https://gitlab.cee.redhat.com/mta-qe/tackle-api-tests-config.git","main")
                     sh "sleep 40s" //Grace period after the application is serving correctly.
-                    sh "pipenv run pytest -v --tc-file=$WORKSPACE/tackle-api-tests-config/config.json --tc-format=json"
+                    sh "pipenv run pytest -v ${CHANGED_TEST_FILES} --tc-file=$WORKSPACE/tackle-api-tests-config/config.json --tc-format=json"
                 }
             }
         }
