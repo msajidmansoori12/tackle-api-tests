@@ -16,7 +16,6 @@ pipeline{
     environment{
         TACKLE_USER = "admin"
         TACKLE_PASSWORD = "Passw0rd!"
-        RUN_TESTS = "false"
     }
     
     stages{
@@ -46,13 +45,14 @@ pipeline{
                         }
                     }
                     env.CHANGED_TEST_FILES = changed_test_list.join(" ")
+                    sh "env"
                 }
             }
         }
         stage('Install & run minikube'){
-            when { 
+            when {  
                 expression{
-                    return (env.RUN_TESTS == "true")
+                    env.RUN_TESTS == "true"
                 }
             }   
             steps{
@@ -90,7 +90,7 @@ pipeline{
         stage('Run tackle api tests'){
            when { 
                 expression{
-                    return (env.RUN_TESTS == "true")
+                    env.RUN_TESTS == "true"
                 }
             }   
             steps{

@@ -1,7 +1,7 @@
 import pytest
 from wait_for import wait_for
 
-      
+       
 @pytest.mark.analysis
 def test_analysis(task_groups, get_api):
     for task_group in task_groups:
