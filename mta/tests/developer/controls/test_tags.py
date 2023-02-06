@@ -1,7 +1,7 @@
 import pytest
 from pytest_check import check
 
-
+ 
 @pytest.mark.tags
 def test_default_tags(json_defaults, tag_names):
     assert set(json_defaults["tags"]).issubset(tag_names), "Default tags check FAILED! (found : expected)"  # noqa: E501
