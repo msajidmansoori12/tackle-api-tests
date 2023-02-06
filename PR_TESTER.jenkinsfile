@@ -45,7 +45,6 @@ pipeline{
                         }
                     }
                     env.CHANGED_TEST_FILES = changed_test_list.join(" ")
-                    sh "env"
                 }
             }
         }
