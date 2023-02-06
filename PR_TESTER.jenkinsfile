@@ -25,7 +25,7 @@ pipeline{
                     branch pattern: '^PR-.*$',
                     comparator: 'REGEXP';
                     expression{
-                    getChangedFilesList().any { it=~ /^tests\/.*test_.*$/} == true
+                    getChangedFilesList().any { it=~ /^.*tests\/.*test_.*$/} == true
                     }
                 }
             }
