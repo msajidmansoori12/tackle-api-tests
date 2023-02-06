@@ -4,9 +4,6 @@ def getChangedFilesList() {
     changedFiles = sh(script:"git diff HEAD..HEAD~1 --name-only",
     returnStdout:true).split('\n')
     return changedFiles
-
-    
-    return changedFiles
 }
 
 pipeline{
