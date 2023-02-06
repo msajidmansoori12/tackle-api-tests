@@ -29,11 +29,7 @@ pipeline{
             steps{
                 script{
                     checkout scm
-                    env.RUN_TESTS = "true"
-                    getChangedFilesList().each{
-                        i ->
-                        println(i)
-                    } 
+                    env.RUN_TESTS = "true" 
                     changed_test_list = [] 
                     getChangedFilesList().each{
                         i ->
